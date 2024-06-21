@@ -6,6 +6,8 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Dashboard from "./Dashboard"
 import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
+import ForgotPassword from "./ForgotPassword"
+import UpdateProfile from "./UpdateProfile"
 import axios from 'axios';
 // funny routing and rendering stuff, like when we minimize the window the application wont just implode on itself 
 function App() {
@@ -19,15 +21,24 @@ function App() {
                 <Router>
                     <AuthProvider>
                         <Routes>
-                            <Route path="/"
+                            <Route path="/dashboard"
                                 element={
                                     <PrivateRoute>
                                         <Dashboard/>
                                     </PrivateRoute>
                                 }
                             ></Route>
+                            <Route path="/update-profile"
+                                element={
+                                    <PrivateRoute>
+                                        <UpdateProfile/>
+                                    </PrivateRoute>
+                                }
+                            ></Route>
                             <Route path="/signup" element={<Signup/>}/>
                             <Route path="/login" element={<Login/>}/>
+                            <Route path="/" element={<Login/>}/>
+                            <Route path="/forgot-password" element={<ForgotPassword/>}/>
                         </Routes>
                     </AuthProvider>
                 </Router>
