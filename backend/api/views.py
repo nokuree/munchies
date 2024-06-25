@@ -6,7 +6,7 @@ from .services import places_nearby
 # def nearby_open_restaurants_view(request):
 #     location = request.GET.get('location')
 #     radius = request.GET.get('radius', 1500)  # Default radius if not provided
-#     api_key = "AIzaSyBL5CvYkdMo0Cr9O3CpyOQ4Vq9uiDSThes"
+#     api_key = "Enter Api Key Here!"
 
 #     if not location:
 #         return JsonResponse({'error': 'Location parameter is required'}, status=400)
