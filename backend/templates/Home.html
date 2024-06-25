@@ -1,19 +1,23 @@
-<!-- nearby_open_restaurants.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nearby Open Restaurants</title>
+    <title>Nearby Open Restaurants!</title>
 </head>
 <body>
     <h1>Nearby Open Restaurants</h1>
     <ul>
-        {% for result in data.results %}
-            <li>
-                <strong>{{ result.name }}</strong><br>
-                Address: {{ result.vicinity }}<br>
-                Rating: {{ result.rating }}<br>
-            </li>
+        {% for restaurant in restaurants %}
+        <li>
+            <strong>{{ restaurant.name }}</strong><br>
+            Address: {{ restaurant.vicinity }}<br>
+            Rating: {{ restaurant.rating }}<br>
+            {% if restaurant.open_now %}
+                <strong>Open Now</strong><br>
+            {% else %}
+                <strong>Closed Now</strong><br>
+            {% endif %}
+        </li>
         {% endfor %}
     </ul>
 </body>

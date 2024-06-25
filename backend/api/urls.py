@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import nearby_open_restaurants_view
-
+from api import views
 urlpatterns = [
-    path('api/nearby_open_restaurants/', nearby_open_restaurants_view, name='nearby_open_restaurants'),
+    path('api/nearby_open_restaurants/', views.nearby_open_restaurants_view, name='nearby_open_restaurants'),
 ]
