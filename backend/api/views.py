@@ -1,32 +1,15 @@
-
-# Create your views here.
+# views.py
 from django.shortcuts import render
-import pyrebase
-from rest_framework.response import Response
-from rest_framework.views import APIView
- 
-config={
-    "apiKey": "AIzaSyBsl0qnXYOFjFaB_Exh_dylbK5ojEUjDFo",
-    "authDomain": "tester-d9eae.firebaseapp.com",
-    "projectId": "tester-d9eae",
-    "storageBucket": "tester-d9eae.appspot.com",
-    "messagingSenderId": "786707515068",
-    "appId": "1:786707515068:web:13c4ff861c4b529efcb2b9",
-    "databaseURL": "https://tester-d9eae-default-rtdb.firebaseio.com/"
-}
-firebase=pyrebase.initialize_app(config)
-authe = firebase.auth()
-database=firebase.database()
- 
-class MyView(APIView):
-    def get(self,request):
-        day = database.child('Data').child('Day').get().val()
-        id = database.child('Data').child('id').get().val()
-        projectname = database.child('Data').child('Project Name').get().val()
+from django.http import JsonResponse
+from .services import places_nearby
 
-        data = {
-            "day" : day,
-            "id" : id,
-            "projectname" : projectname
-        }
-        return Response(data)
+def nearby_open_restaurants_view(request):
+    location = request.GET.get('location')
+    radius = request.GET.get('radius', 1500)  # Default radius if not provided
+    api_key = "YOUR_API_KEY"
+
+    if not location:
+        return JsonResponse({'error': 'Location parameter is required'}, status=400)
+
+    data = places_nearby(location, radius, api_key)
+    return JsonResponse(data)

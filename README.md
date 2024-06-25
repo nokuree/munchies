@@ -1,1 +1,8 @@
-Munchies is a website which aims to find all the nearest restaurant locations that are open and inform the user on what's avalible. The problem with the American Restraunt Industry, at least around Tacoma, Washington, is that alot of places close 8pm, and if you want to find a resteraunt that's open late night, it's impossible to find! Google Maps only shows closed places and it annoys me every time I'm up late at night trying to find somewhere to eat, so I decided to make a website that does that for me! I use Firebase for the database's and auth system, django for my backend algorithms, react and bootstrap for the frontend, and Microsoft Azure for deployment.
+Munchies: Find Late-Night Eats When You Need Them Most!
+
+Ever craved a delicious meal after a long night of studying, working late, or catching up with friends, only to find your favorite restaurants closed? You're not alone. Munchies is here to solve that problem for all the night owls and college students in the world who know the struggle of finding late-night eats.
+
+This website is designed to be your one-stop shop for finding restaurants that are open and ready to satisfy your late-night cravings. No more endlessly scrolling through outdated information or getting frustrated by Google Maps showing closed places. Munchies takes the guesswork out of your late-night adventures.
+
+
+Currently have account system mostly complete, I plan to add google sign in integration via firebase. Currently working on implementing the backend and fetching resteraunt data via Google Places API. Website scheduled to go online August 2024! 

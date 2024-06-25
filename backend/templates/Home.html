@@ -1,22 +1,20 @@
-
+<!-- nearby_open_restaurants.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sample Project</title>
+    <title>Nearby Open Restaurants</title>
 </head>
 <body>
-<H1>
-Project Name is {{ projectname }}
-    </H1>
-<br/>
-<h2>
-Project Id is {{ id }}
-    </h2>
-<br>
-<h3>
-Day {{ day }}
-    </h3>
-<br>
+    <h1>Nearby Open Restaurants</h1>
+    <ul>
+        {% for result in data.results %}
+            <li>
+                <strong>{{ result.name }}</strong><br>
+                Address: {{ result.vicinity }}<br>
+                Rating: {{ result.rating }}<br>
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
