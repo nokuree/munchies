@@ -38,3 +38,9 @@ def _places_nearby(location, radius, api_key):
     }
     response = requests.get(url, params=params)
     return response.json()
+
+def get_geolocation(ip_address):
+    # I will put in geolocation code when deployment comes, since
+    # im running this all locally and i'd rather not spend alot of time setting up
+    # azure for a simple ip_address test
+    return None

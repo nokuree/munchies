@@ -21,77 +21,13 @@ import requests
 
 def nearby_open_restaurants_view(request):
     # Example JSON response (you would replace this with your actual API call)
-    response_json = """
-    {
-      "html_attributions": [],
-      "results": [
-        {
-          "business_status": "OPERATIONAL",
-          "geometry": {
-            "location": {
-              "lat": 47.2438445,
-              "lng": -122.5563865
-            }
-          },
-          "name": "Boathouse 19",
-          "opening_hours": {
-            "open_now": true
-          },
-          "rating": 4.3,
-          "vicinity": "9001 South 19th Street, Tacoma"
-        },
-        {
-          "business_status": "OPERATIONAL",
-          "geometry": {
-            "location": {
-              "lat": 47.2355195,
-              "lng": -122.547994
-            }
-          },
-          "name": "U P Station Bar & Grill",
-          "opening_hours": {
-            "open_now": true
-          },
-          "rating": 4.3,
-          "vicinity": "8305 27th Street West, University Place"
-        },
-        {
-          "business_status": "OPERATIONAL",
-          "geometry": {
-            "location": {
-              "lat": 47.2464055,
-              "lng": -122.5528385
-            }
-          },
-          "name": "Beach Tavern",
-          "opening_hours": {
-            "open_now": true
-          },
-          "rating": 4.4,
-          "vicinity": "8612 6th Avenue, Tacoma"
-        },
-        {
-          "business_status": "OPERATIONAL",
-          "geometry": {
-            "location": {
-              "lat": 47.2355011,
-              "lng": -122.5489759
-            }
-          },
-          "name": "Lefty's Burger Shack",
-          "opening_hours": {
-            "open_now": true
-          },
-          "rating": 4.5,
-          "vicinity": "8317 27th Street West, University Place"
-        }
-      ],
-      "status": "OK"
-    }
-    """
-    
-    # Parse the JSON response
-    data = json.loads(response_json)
+    location = "47.235740,-122.559004"
+    radius = 5000
+    api_key = "AIzaSyBRc9Ph1-077y_dcI1Md617mhLBUiY0unw"
+
+    data = places_nearby(location,radius,api_key)
+
+
 
     # Extract relevant restaurant information
     restaurants = []
