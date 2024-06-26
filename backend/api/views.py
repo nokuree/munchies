@@ -23,7 +23,7 @@ def nearby_open_restaurants_view(request):
     # Example JSON response (you would replace this with your actual API call)
     location = "47.235740,-122.559004"
     radius = 5000
-    api_key = "AIzaSyBRc9Ph1-077y_dcI1Md617mhLBUiY0unw"
+    api_key = "Lol"
 
     data = places_nearby(location,radius,api_key)
 
