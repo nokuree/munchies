@@ -21,7 +21,7 @@ import requests
 
 def nearby_open_restaurants_view(request):
     # Example JSON response (you would replace this with your actual API call)
-    location = "47.235740,-122.559004"
+    location = "enter location here"
     radius = 5000
     api_key = "Lol"
 
