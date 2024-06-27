@@ -14,31 +14,30 @@ from .services import places_nearby
 #     data = places_nearby(location, radius, api_key)
 #     return JsonResponse(data)
 
-
-from django.shortcuts import render
-import json
-import requests
+from django.http import JsonResponse
+from .services import places_nearby, get_photo_url
 
 def nearby_open_restaurants_view(request):
-    # Example JSON response (you would replace this with your actual API call)
-    location = "enter location here"
-    radius = 5000
-    api_key = "Lol"
+    location = ""
+    radius = request.GET.get('radius', 5000)  # Default radius if not provided
+    api_key = ""  # Replace with your actual API key
 
-    data = places_nearby(location,radius,api_key)
+    if not location:
+        return JsonResponse({'error': 'Location parameter is required'}, status=400)
 
+    data = places_nearby(location, radius, api_key)
 
-
-    # Extract relevant restaurant information
+    # Extract relevant restaurant information and construct response
     restaurants = []
     for result in data.get('results', []):
         restaurant = {
             'name': result['name'],
             'vicinity': result['vicinity'],
             'rating': result.get('rating', 'N/A'),
-            'open_now': result['opening_hours']['open_now'] if 'opening_hours' in result else False
+            'open_now': result['opening_hours']['open_now'] if 'opening_hours' in result else False,
+            'photo_url': result['photo_url'] if 'photo_url' in result else None
         }
         restaurants.append(restaurant)
 
-    # Render the template with the restaurant data
-    return render(request, 'Home.html', {'restaurants': restaurants})
+    # Return JSON response with the list of restaurants
+    return JsonResponse({'restaurants': restaurants})
