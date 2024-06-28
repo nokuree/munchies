@@ -37,6 +37,10 @@
 // }
 
 import React, { useState, useEffect } from 'react';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import {Link, useNavigate} from "react-router-dom"
+import NavBar from './NavBar'
+
 
 function Dashboard() {
   const [restaurants, setRestaurants] = useState([]);
@@ -47,7 +51,7 @@ function Dashboard() {
       try {
         const response = await fetch('http://localhost:8000/api/nearby_open_restaurants/');
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not good :(');
         }
         const data = await response.json();
         setRestaurants(data.restaurants);
@@ -67,6 +71,10 @@ function Dashboard() {
 
   return (
     <div>
+      <header>
+        <NavBar />
+      </header>
+
       <h1>Nearby Open Restaurants</h1>
       <ul>
         {restaurants.map((restaurant, index) => (

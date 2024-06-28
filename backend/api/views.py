@@ -19,8 +19,7 @@ from .services import places_nearby, get_photo_url
 
 def nearby_open_restaurants_view(request):
     location = ""
-    radius = request.GET.get('radius', 5000)  # Default radius if not provided
-    api_key = ""  # Replace with your actual API key
+    radius = request.GET.get('radius', 5000) 
 
     if not location:
         return JsonResponse({'error': 'Location parameter is required'}, status=400)
