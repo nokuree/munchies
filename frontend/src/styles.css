@@ -7,6 +7,7 @@
 }
 
 .navbar .navbar-toggler {
+  background-color: grey !important; 
   color: white !important; 
 }
 
@@ -20,4 +21,26 @@
 
 .navbar-nav .nav-link:hover {
   color: #ccc !important; 
+}
+
+body {
+  background-color: #121212;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.text-sm .card-text,
+.text-sm .list-group-item {
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.current-day {
+  font-weight: bold;
+}
+
+.munchies-title {
+  text-indent:70px
 }

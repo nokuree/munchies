@@ -50,7 +50,11 @@
 import json
 import requests
 import redis
+import logging
 from django.conf import settings
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 redis_client = redis.StrictRedis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
 
@@ -58,11 +62,21 @@ def cache_request(key, data, ttl=600):
     """Cache the data in Redis with a time-to-live (ttl) in seconds."""
     redis_client.setex(key, ttl, json.dumps(data))
 
+# def get_cached_request(key):
+#     """Retrieve data from Redis if it has not expired."""
+#     cached_data = redis_client.get(key)
+#     if cached_data:
+#         return json.loads(cached_data)
+#     return None
+
 def get_cached_request(key):
     """Retrieve data from Redis if it has not expired."""
+    logger.debug(f"Checking cache for key: {key}")
     cached_data = redis_client.get(key)
     if cached_data:
+        logger.debug(f"Cache hit for key: {key}")
         return json.loads(cached_data)
+    logger.debug(f"Cache miss for key: {key}")
     return None
 
 def places_nearby(location, radius, api_key):
