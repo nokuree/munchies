@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Container} from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom"
 
@@ -12,7 +12,7 @@ export default function Login() {
     const { login } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
-    const history = useNavigate()
+    const history = useNavigate() 
 
     // So when we submit, it makes sure that the passwords match and if not, it wont proceed and blocks the email and password from being registered and 
     // causing a mess
@@ -37,7 +37,10 @@ export default function Login() {
 
     // Fun frontend, bootstrap is fun to work with :p
     return (
-      <div>
+        <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}>
+        <div className="w-100" style={{maxWidth: "400px"}}>
         <Card>
             <Card.Body>
                 <h2 className="text-center mb-4">Log in </h2>
@@ -64,6 +67,7 @@ export default function Login() {
             Need an account? <Link to="/signup">Sign Up</Link>
         </div>
       </div>
+      </Container>
     )
   
 }

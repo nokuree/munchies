@@ -94,11 +94,17 @@ def places_nearby(location, radius, api_key):
             details_response = requests.get(details_url, params=details_params)
             details_data = details_response.json()
 
-            if 'photos' in details_data['result']:
-                photo_reference = details_data['result']['photos'][0]['photo_reference']
-                result['photo_url'] = get_photo_url(photo_reference, api_key)
-            else:
-                result['photo_url'] = None
+            if 'result' in details_data:
+                result['name'] = details_data['result'].get('name')
+                result['vicinity'] = details_data['result'].get('vicinity')
+                result['rating'] = details_data['result'].get('rating')
+                result['opening_hours'] = details_data['result'].get('opening_hours', {})
+                
+                if 'photos' in details_data['result']:
+                    photo_reference = details_data['result']['photos'][0]['photo_reference']
+                    result['photo_url'] = get_photo_url(photo_reference, api_key)
+                else:
+                    result['photo_url'] = None
 
     cache_request(cache_key, data)
     return data

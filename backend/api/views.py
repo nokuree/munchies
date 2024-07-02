@@ -19,6 +19,7 @@ from .services import places_nearby, get_photo_url
 
 def nearby_open_restaurants_view(request):
     location = ""
+    api_key = ""
     radius = request.GET.get('radius', 5000) 
 
     if not location:
@@ -33,6 +34,7 @@ def nearby_open_restaurants_view(request):
             'name': result['name'],
             'vicinity': result['vicinity'],
             'rating': result.get('rating', 'N/A'),
+            'opening_hours' : result['opening_hours'],
             'open_now': result['opening_hours']['open_now'] if 'opening_hours' in result else False,
             'photo_url': result['photo_url'] if 'photo_url' in result else None
         }

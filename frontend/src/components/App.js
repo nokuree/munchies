@@ -14,7 +14,7 @@ function App() {
     return ( 
 
 
-            <div className="w-100" style={{maxWidth: "400px"}}>
+            <div>
                 <Router>
                     <AuthProvider>
                         <Routes>

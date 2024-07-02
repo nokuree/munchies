@@ -48,7 +48,7 @@ export default function UpdateProfile() {
 
     // Fun frontend, bootstrap is fun to work with :p
     return (
-      <div>
+        <div className="w-100" style={{maxWidth: "400px"}}>
         <Card>
             <Card.Body>
                 <h2 className="text-center mb-4">Update Profile</h2>

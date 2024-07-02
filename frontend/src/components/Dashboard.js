@@ -3,7 +3,6 @@
 // // import {useAuth} from '../contexts/AuthContext'
 // // import {Link, useNavigate} from 'react-router-dom'
 
-
 // // export default function Dashboard() {
 // //     const [error, setError] = useState("")
 // //     const {currentUser, logout} = useAuth()
@@ -36,11 +35,10 @@
 // //   )
 // }
 
-import React, { useState, useEffect } from 'react';
-import { Navbar, Container, Nav } from 'react-bootstrap';
-import {Link, useNavigate} from "react-router-dom"
-import NavBar from './NavBar'
-
+import React, { useState, useEffect } from "react";
+import { Navbar, Container, Nav } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function Dashboard() {
   const [restaurants, setRestaurants] = useState([]);
@@ -49,16 +47,18 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/nearby_open_restaurants/');
+        const response = await fetch(
+          "http://localhost:8000/api/nearby_open_restaurants/"
+        );
         if (!response.ok) {
-          throw new Error('Network response was not good :(');
+          throw new Error("Network response was not good :(");
         }
         const data = await response.json();
         setRestaurants(data.restaurants);
         setError(null); // Clear any previous error
       } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again later.');
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
       }
     };
 
@@ -70,29 +70,50 @@ function Dashboard() {
   }
 
   return (
-    <div>
-      <header>
-        <NavBar />
-      </header>
-
-      <h1>Nearby Open Restaurants</h1>
-      <ul>
-        {restaurants.map((restaurant, index) => (
-          <li key={index}>
-            <h2>{restaurant.name}</h2>
-            <p>Location: {restaurant.vicinity}</p>
-            <p>Rating: {restaurant.rating}</p>
-            <p>Open Now: {restaurant.open_now ? 'Yes' : 'No'}</p>
-            {restaurant.photo_url && (
-              <img src={restaurant.photo_url} alt={restaurant.name} style={{ maxWidth: '100%' }} />
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div>
+        <header>
+          <NavBar />
+        </header>
+      </div>
+      <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}
+      >
+        <div className="w-100" style={{ maxWidth: "400px" }}>
+          <h1>Nearby Open Restaurants</h1>
+          <ul>
+            {restaurants.map((restaurant, index) => (
+              <li key={index}>
+                <h2>{restaurant.name}</h2>
+                <p>Location: {restaurant.vicinity}</p>
+                <p>Rating: {restaurant.rating}</p>
+                <p>Open Now: {restaurant.open_now ? "Yes" : "No"}</p>
+                {restaurant.opening_hours && restaurant.opening_hours.weekday_text && (
+                  <div>
+                    <p>Hours:</p>
+                    <u1>
+                      {restaurant.opening_hours.weekday_text.map((hours,idx) => (
+                        <li key={idx}>{hours}</li>
+                      ))}
+                    </u1>
+                  </div>
+                
+                )}
+                {restaurant.photo_url && (
+                  <img
+                    src={restaurant.photo_url}
+                    alt={restaurant.name}
+                    style={{ maxWidth: "100%" }}
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </>
   );
 }
 
 export default Dashboard;
-
-
