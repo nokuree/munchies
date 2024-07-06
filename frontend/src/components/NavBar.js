@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles.css'; // Ensure this path is correct
+import '../styles.css'; 
 
 function NavBar() {
     const { currentUser, logout } = useAuth();

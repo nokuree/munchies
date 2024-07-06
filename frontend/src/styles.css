@@ -44,3 +44,18 @@ body {
 .munchies-title {
   text-indent:70px
 }
+
+.container-custom {
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.continue-p{
+  font-size: 12px;
+    color: #b2b2b2;
+    font-weight: 600;
+    margin-top: 1rem;
+    text-align: center;
+
+}
+

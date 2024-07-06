@@ -2,6 +2,10 @@ import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert, Container} from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom"
+import SignInWithGoogle from "./GoogleSignIn"
+
+
+
 
 
 export default function Login() {
@@ -57,15 +61,19 @@ export default function Login() {
                     <Button disabled={loading} className="w-100" type="submit">
                         Log in 
                     </Button>
+                    
                 </Form>
                 <div className="w-100 text-center mt-3">
                     <Link to="/forgot-password">Forgot Password?</Link>
+                    
                 </div>
+                <SignInWithGoogle />
             </Card.Body>
         </Card>
         <div style={{color: 'white'}} className="w-100 text-center mt-2">
             Need an account? <Link to="/signup">Sign Up</Link>
         </div>
+
       </div>
       </Container>
     )
