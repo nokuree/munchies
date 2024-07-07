@@ -2,12 +2,21 @@ import React from 'react'
 import { signInWithPopup } from 'firebase/auth'
 import {auth, provider} from "../firebase"
 import "../styles.css"
+import  {toast} from "react-toastify"
+import {useNavigate} from "react-router-dom"
 
-function SignInWithGoogle() {
+function GoogleSignIn() {
+    const history = useNavigate()
 
     function googleLogin() {
         signInWithPopup(auth, provider).then((async(result)=>{
             console.log(result);
+            if (result.user) {
+                toast.success("User logged in successfully!", {
+                    position: "top-center"
+                });
+                history("/dashboard")
+            }
         }))
     }
   return (
@@ -19,4 +28,4 @@ function SignInWithGoogle() {
     </div>
   );
 }
-export default SignInWithGoogle;
+export default GoogleSignIn;

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert, Container } from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom";
+import GoogleSignIn from "./GoogleSignIn"
 
 
 export default function Signup() {
@@ -61,6 +62,7 @@ export default function Signup() {
                         Sign Up
                     </Button>
                 </Form>
+                <GoogleSignIn/>
             </Card.Body>
         </Card>
         <div style={{color: 'white'}} className="w-100 text-center mt-2">

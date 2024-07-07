@@ -232,7 +232,7 @@ function Dashboard() {
                   <ListGroup variant="flush" className="text-sm">
                     <ListGroup.Item><strong>Today's Hours:</strong></ListGroup.Item>
                     <ListGroup.Item className='current-day'>
-                      {restaurant.opening_hours.weekday_text[currentDayIndex]}
+                      {restaurant.opening_hours.weekday_text[currentDayIndex-1]}
                     </ListGroup.Item>
                   </ListGroup>
                 )}

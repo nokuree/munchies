@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Form, Button, Card, Alert, Container} from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom"
-import SignInWithGoogle from "./GoogleSignIn"
+import GoogleSignIn from "./GoogleSignIn"
 
 
 
@@ -28,7 +28,7 @@ export default function Login() {
 
         try {
             setError("")
-            setLoading(true)
+            setLoading(true) 
             await login(emailRef.current.value, passwordRef.current.value)
             history("/dashboard")
         } catch(error) {
@@ -67,7 +67,7 @@ export default function Login() {
                     <Link to="/forgot-password">Forgot Password?</Link>
                     
                 </div>
-                <SignInWithGoogle />
+                <GoogleSignIn />
             </Card.Body>
         </Card>
         <div style={{color: 'white'}} className="w-100 text-center mt-2">
