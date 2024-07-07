@@ -5,6 +5,7 @@ import "../styles.css"
 import  {toast} from "react-toastify"
 import {useNavigate} from "react-router-dom"
 
+// GoogleSignIn component 
 function GoogleSignIn() {
     const history = useNavigate()
 
