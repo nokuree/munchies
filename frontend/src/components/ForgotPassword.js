@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Form, Button, Card, Alert } from 'react-bootstrap';
+import { Form, Button, Card, Alert, Container } from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link} from "react-router-dom"
 
@@ -34,6 +34,9 @@ export default function ForgotPassword() {
 
     // Fun frontend, bootstrap is fun to work with :p
     return (
+        <Container
+        className="d-flex align-items-center justify-content-center"
+        style={{ minHeight: "100vh" }}>
       <div>
         <Card>
             <Card.Body>
@@ -55,9 +58,10 @@ export default function ForgotPassword() {
                 </div>
             </Card.Body>
         </Card>
-        <div className="w-100 text-center mt-2">
+        <div style={{color:'white'}} className="w-100 text-center mt-2">
             Need an account? <Link to="/signup">Sign Up</Link>
         </div>
       </div>
+      </Container>
     )
 }

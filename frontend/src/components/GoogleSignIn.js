@@ -1,32 +1,46 @@
-import React from 'react'
-import { signInWithPopup } from 'firebase/auth'
-import {auth, provider} from "../firebase"
-import "../styles.css"
-import  {toast} from "react-toastify"
-import {useNavigate} from "react-router-dom"
+import React, { useEffect } from 'react';
+import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { auth, provider } from "../firebase";
+import "../styles.css";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-// GoogleSignIn component 
 function GoogleSignIn() {
-    const history = useNavigate()
+    const navigate = useNavigate();
 
-    function googleLogin() {
-        signInWithPopup(auth, provider).then((async(result)=>{
-            console.log(result);
-            if (result.user) {
-                toast.success("User logged in successfully!", {
-                    position: "top-center"
-                });
-                history("/dashboard")
+    const googleLogin = () => {
+        console.log("Starting Google login...");
+        signInWithRedirect(auth, provider);
+    };
+
+    useEffect(() => {
+        const checkRedirectResult = async () => {
+            console.log("Checking for redirect result...");
+            try {
+                const result = await getRedirectResult(auth);
+                if (result) {
+                    console.log("Redirect result received, navigating to /dashboard");
+                    navigate("/dashboard");
+                } else {
+                    console.log("No redirect result received.");
+                }
+            } catch (error) {
+                console.error("Error fetching redirect result:", error);
+                toast.error("Failed to sign in with Google.");
             }
-        }))
-    }
-  return (
-    <div 
-        style={{display: "flex", justifyContent: "center", cursor: "pointer"}}
-        onClick={googleLogin}
-    >
-        <img src={"./google.png"} width={"80%"}/>
-    </div>
-  );
+        };
+
+        checkRedirectResult();
+    }, [navigate]);
+
+    return (
+        <div 
+            style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+            onClick={googleLogin}
+        >
+            <img src={"./google.png"} width={"80%"} alt="Google Sign-In"/>
+        </div>
+    );
 }
+
 export default GoogleSignIn;

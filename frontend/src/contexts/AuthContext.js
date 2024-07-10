@@ -6,7 +6,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import {auth, provider} from "../firebase"
 
 import { createUserWithEmailAndPassword,onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, signInWithPopup } from 'firebase/auth';
-import {updateEmail, updatePassword} from 'firebase/auth'
+import {updateEmail, updatePassword, signInWithRedirect} from 'firebase/auth'
 
 // Creates a React context, this context will store the authentication state and functions
 const AuthContext = React.createContext()
@@ -53,7 +53,10 @@ export function AuthProvider({children}) {
     function SignInPopUp() {
         return signInWithPopup(auth, provider)
     }
-
+    
+    const googleSignIn = () => {
+        signInWithRedirect(auth,provider)
+    }
     // useEffect hook: Attatches a listener to the auth state using onAuthStateChanged, and when the auth state logs in or out, it updates 
     // the currentUser state with new user information, and sets loading to false to indicate that the state is fetched, then it returns unsubscruibe which removes the 
     // listener so no memory leaks 
@@ -78,6 +81,7 @@ export function AuthProvider({children}) {
         updateCurrEmail,
         updateCurrPassword,
         SignInPopUp,
+        googleSignIn,
     } // Only renders the children, so if loading is false which means the authentication sate is fetched, it wont render the app until the users authentication state
     // is known. 
     return (
@@ -85,4 +89,8 @@ export function AuthProvider({children}) {
             {!loading && children}
       </AuthContext.Provider>
     )
+}
+
+export const UserAuth = () => {
+    return useContext(AuthContext)
 }
