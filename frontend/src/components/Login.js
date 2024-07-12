@@ -4,6 +4,7 @@ import {UserAuth, useAuth} from '../contexts/AuthContext'
 import {auth, provider} from "../firebase"
 import {getRedirectResult, signInWithRedirect, signInWithPopup} from "firebase/auth"
 import {Link, useNavigate} from "react-router-dom"
+import GeolocationComponent from "./Geolocation"
 // import GoogleSignIn from "./GoogleSignIn"
 
 
@@ -35,14 +36,21 @@ export default function Login() {
             history("/dashboard")
         } catch(error) {
             console.error(error)
-            setError("Failed to log in!")
         }
         setLoading(false)
         
     }
 
     const handleGoogleSignIn = async () => {
-        signInWithPopup(auth, provider);
+        signInWithPopup(auth, provider).then(async(result) =>{
+            console.log(result);
+            if (result.user) {
+                history("/dashboard")
+            }
+        });
+
+        // signInWithRedirect(auth,provider)
+        
     };
 
     // useEffect(() => {
@@ -70,6 +78,7 @@ export default function Login() {
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}>
         <div className="w-100" style={{maxWidth: "400px"}}>
+        
         <Card>
             <Card.Body>
                 <h2 className="text-center mb-4">Log in </h2>
@@ -104,7 +113,15 @@ export default function Login() {
         >
             <img src={"./google.png"} width={"80%"} alt="Google Sign-In"/>
         </div>
-
+        <div>
+            {location.latitude && location.longitude ? (
+                <p>Latitude: {location.latitude}, Longitude: {location.longitude}</p>
+            ) : (
+                <p>Fetching location...</p>
+            )}
+            {error && <p>Error: {error}</p>}
+        </div>
+        <GeolocationComponent />
       </div>
       </Container>
     )

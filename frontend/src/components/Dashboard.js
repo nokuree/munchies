@@ -95,6 +95,7 @@
 // export default Dashboard;
 
 import React, { useState, useEffect } from "react";
+import GeolocationComponent from "./Geolocation"
 import { Navbar, Container, Nav, Card, ListGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
@@ -192,6 +193,7 @@ function Dashboard() {
 
   return (
     <>
+    <GeolocationComponent />
       <div>
         <header>
           <NavBar />

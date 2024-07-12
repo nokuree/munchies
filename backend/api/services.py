@@ -238,3 +238,17 @@ def get_photo_url(photo_reference, api_key):
     if photo_reference:
         return f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
     return None
+
+def process_location_data(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+        
+        # You can now process the latitude and longitude, for example:
+        # Save them to the database or perform other logic
+        # For example:
+        # UserLocation.objects.create(user=request.user, latitude=latitude, longitude=longitude)
+        
+        return {'status': 'success', 'latitude': latitude, 'longitude': longitude}
+    return {'status': 'fail'}
