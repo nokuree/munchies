@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 
 const GeolocationComponent = () => {
     const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null });
@@ -12,6 +13,8 @@ const GeolocationComponent = () => {
                         const { latitude, longitude } = position.coords;
                         setUserLocation({ latitude, longitude });
                         sendLocationToBackend(latitude, longitude);
+                        console.log(latitude)
+                        console.log(longitude)
                     },
                     (error) => {
                         setError(error.message);
@@ -22,55 +25,27 @@ const GeolocationComponent = () => {
             }
         };
 
-        fetchLocation(); // Call fetchLocation when the component mounts
+        fetchLocation(); 
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Empty dependency array ensures this effect runs only once on mount
 
-    const sendLocationToBackend = (latitude, longitude) => {
-        fetch('/api/nearby_open_restaurants/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify({ latitude, longitude })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            // Handle the response data
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    };
-
-    const getCookie = (name) => {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
+    const sendLocationToBackend = async(latitude, longitude) => {
+        try {
+            const response = await axios.post("http://localhost:8000/api/save_location/", {
+                latitude : latitude,
+                longitude : longitude
+            });
+            console.log(response.data.latitude, response.data.longitude)
+        } catch (error) {
+            console.error("Error with sending data: ", error)
         }
-        return cookieValue;
-    };
+        
+    }
 
-    return (
-        <div>
-            {userLocation.latitude && userLocation.longitude ? (
-                <p>Latitude: {userLocation.latitude}, Longitude: {userLocation.longitude}</p>
-            ) : (
-                <p>Fetching location...</p>
-            )}
-            {error && <p>Error: {error}</p>}
-        </div>
-    );
+
+
+    return 
 };
 
 export default GeolocationComponent;

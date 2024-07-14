@@ -25,7 +25,7 @@ function NavBar() {
             <Navbar bg="dark" expand="lg">
                 <Container fluid>
                     <Navbar.Brand>
-                        <img src="images.png" alt="logo" style={{ marginRight: '10px' }} />
+                        <img src="images.png" alt="logo" style={{ marginRight: '3px', marginTop: '-9px' }} />
                         <span className="logo-text">Munchies</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

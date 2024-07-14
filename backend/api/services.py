@@ -155,6 +155,7 @@ import redis
 import logging
 from django.conf import settings
 import time
+from .models import Location
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -174,6 +175,7 @@ def get_cached_request(key):
     logger.debug(f"Cache miss for key: {key}")
     return None
 
+# Takes cached data and sorts it out
 def places_nearby(location, radius, api_key):
     cache_key = f"places_nearby:{location}:{radius}:open_restaurants"
     cached_data = get_cached_request(cache_key)
@@ -188,7 +190,9 @@ def places_nearby(location, radius, api_key):
         "opennow": True,
         "key": api_key
     }
-
+     
+    # while loop is for searching for more restraunts when google places api hits the 20 query max, fixes
+    # bug where it would only show 20 restraunts open, even when there are clearly more
     all_results = []
     while True:
         response = requests.get(url, params=params)
@@ -197,9 +201,8 @@ def places_nearby(location, radius, api_key):
 
         if 'results' in data:
             all_results.extend(data['results'])
-
+        # next page token is used to find the next page of open restraunts
         if 'next_page_token' in data:
-            # Delay required by the API to ensure the next_page_token is active
             time.sleep(2)
             params['pagetoken'] = data['next_page_token']
         else:
@@ -233,22 +236,24 @@ def places_nearby(location, radius, api_key):
 
     cache_request(cache_key, detailed_results)
     return {'results': detailed_results}
-
+# function used to get the photo urls
 def get_photo_url(photo_reference, api_key):
     if photo_reference:
         return f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
     return None
-
+# When the frontend sends down location data, this function stores it within the model
 def process_location_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         latitude = data.get('latitude')
         longitude = data.get('longitude')
-        
-        # You can now process the latitude and longitude, for example:
-        # Save them to the database or perform other logic
-        # For example:
-        # UserLocation.objects.create(user=request.user, latitude=latitude, longitude=longitude)
-        
-        return {'status': 'success', 'latitude': latitude, 'longitude': longitude}
-    return {'status': 'fail'}
+
+        if latitude is not None and longitude is not None:
+            # Save location data to the database
+            location = Location(latitude=latitude, longitude=longitude)
+            location.save()
+            return {'status': 'success', 'message': 'Location saved successfully.'}
+        else:
+            return {'status': 'error', 'message': 'Latitude and longitude must be provided.'}
+    else:
+        return {'status': 'error', 'message': 'Invalid request method.'}

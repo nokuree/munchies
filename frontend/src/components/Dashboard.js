@@ -105,6 +105,7 @@ function Dashboard() {
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
 
+  // fetches data from my django view
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,59 +138,6 @@ function Dashboard() {
     return <div>Error: {error}</div>;
   }
 
-  // return (
-  //   <>
-  //     <div>
-  //       <header>
-  //         <NavBar />
-  //       </header>
-  //     </div>
-  //     <Container
-  //       className="d-flex align-items-center justify-content-center"
-  //       style={{ minHeight: "100vh" }}
-  //     >
-  //       <div className="w-100" style={{ maxWidth: "800px" }}>
-  //         <h1 className="munchies-title" style={{ color: 'white' }}>Nearby Open Restaurants</h1>
-  //         {restaurants.map((restaurant, index) => (
-  //           <Card key={index} className="mb-3 text-sm" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', minHeight: '200px' }}>
-  //             {restaurant.photo_url && (
-  //               <div style={{ flex: '0 0 auto', width: '200px', height: '200px', overflow: 'hidden' }}>
-  //                 <Card.Img
-  //                   src={restaurant.photo_url}
-  //                   alt={restaurant.name}
-  //                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-  //                 />
-  //               </div>
-  //             )}
-  //             <Card.Body style={{ flex: '1', padding: '10px' }}>
-  //               <Card.Title>
-  //                 <a 
-  //                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.vicinity)}`} 
-  //                   target="_blank" 
-  //                   rel="noopener noreferrer"
-  //                   style={{ textDecoration: 'underline', color: '#007bff' }}
-  //                 >
-  //                   {restaurant.name}
-  //                 </a>
-  //               </Card.Title>
-  //               <Card.Text><strong>Location:</strong> {restaurant.vicinity}</Card.Text>
-  //               <Card.Text><strong>Rating:</strong> {restaurant.rating}</Card.Text>
-  //               <Card.Text><strong>Open Now:</strong> {restaurant.open_now ? "Yes" : "No"}</Card.Text>
-  //               {restaurant.opening_hours && restaurant.opening_hours.weekday_text && (
-  //                 <ListGroup variant="flush" className="text-sm">
-  //                   <ListGroup.Item><strong>Today's Hours:</strong></ListGroup.Item>
-  //                   <ListGroup.Item className='current-day'>
-  //                     {restaurant.opening_hours.weekday_text[currentDayIndex]}
-  //                   </ListGroup.Item>
-  //                 </ListGroup>
-  //               )}
-  //             </Card.Body>
-  //           </Card>
-  //         ))}
-  //       </div>
-  //     </Container>
-  //   </>
-  // );
 
   return (
     <>

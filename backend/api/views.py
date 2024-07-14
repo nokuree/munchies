@@ -14,25 +14,43 @@ from .services import places_nearby
 #     data = places_nearby(location, radius, api_key)
 #     return JsonResponse(data)
 from django.http import JsonResponse
-from .services import places_nearby
+from .services import places_nearby, process_location_data
 from django.views.decorators.csrf import csrf_exempt 
+from .models import Location
 import json
 
+# saves location data that is sent via post request from react
+@csrf_exempt
+def save_location_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            latitude = data.get('latitude')
+            longitude = data.get('longitude')
+            
+            # Save the location data to the database or perform any necessary action
+            Location.objects.create(latitude=latitude, longitude=longitude)
+
+            return JsonResponse({'message': 'Location saved successfully'})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+    return JsonResponse({'error': 'POST method required.'}, status=405)
+
+# View that processes the data for react to print out, takes api key, radius of 5 miles, and user location
+# then uses places_nearby to process and cache data before spitting out usable data for react to display
 @csrf_exempt
 def nearby_open_restaurants_view(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        latitude = data.get('latitude')
-        longitude = data.get('longitude')
+    if request.method == 'GET':
+        location = Location.objects.last()  
 
-        if latitude is not None and longitude is not None:
-            api_key = ""
-            radius = request.GET.get('radius', 5000) 
+        if location:
+            api_key = "AIzaSyDPCXmyknljFGv185cBoyJKPTnMwJPofQY"
+            radius = request.GET.get('radius', 5000)
 
-            location = f"{latitude},{longitude}"
-            data = places_nearby(location, radius, api_key)
+            location_str = f"{location.latitude},{location.longitude}"
+            data = places_nearby(location_str, radius, api_key)
+
             
-            # Extract relevant restaurant information and construct response
             restaurants = []
             for result in data.get('results', []):
                 restaurant = {
@@ -40,14 +58,12 @@ def nearby_open_restaurants_view(request):
                     'vicinity': result['vicinity'],
                     'rating': result.get('rating', 'N/A'),
                     'opening_hours': result.get('opening_hours', {}).get('open_now', False),
-                    'photo_url': result.get('photos', [])[0]['photo_reference'] if 'photos' in result else None
+                    'photo_url': result['photo_url'] if 'photo_url' in result else None
                 }
                 restaurants.append(restaurant)
 
-            # Return JSON response with the list of restaurants
             return JsonResponse({'restaurants': restaurants})
-
         else:
-            return JsonResponse({'error': 'Latitude and longitude must be provided.'}, status=400)
+            return JsonResponse({'error': 'No location data found.'}, status=404)
 
-    return JsonResponse({'error': 'POST method required.'}, status=405)
+    return JsonResponse({'error': 'GET method required.'}, status=405)
