@@ -37,7 +37,12 @@ export default function ForgotPassword() {
         <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}>
-      <div>
+
+      <div className="w-100" style={{ maxWidth: "400px" }}>
+        <div className="d-flex align-items-center justify-content-center">
+          <img src="images.png" alt="logo" style={{ marginRight: '10px', marginTop: '-9px' }}></img>
+          <h1 style={{color:"white"}}>Munchies</h1>
+        </div>
         <Card>
             <Card.Body>
                 

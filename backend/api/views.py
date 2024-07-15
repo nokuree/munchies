@@ -2,19 +2,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services import places_nearby
-
-# def nearby_open_restaurants_view(request):
-#     location = request.GET.get('location')
-#     radius = request.GET.get('radius', 1500)  # Default radius if not provided
-#     api_key = "Enter Api Key Here!"
-
-#     if not location:
-#         return JsonResponse({'error': 'Location parameter is required'}, status=400)
-
-#     data = places_nearby(location, radius, api_key)
-#     return JsonResponse(data)
-from django.http import JsonResponse
-from .services import places_nearby, process_location_data
 from django.views.decorators.csrf import csrf_exempt 
 from .models import Location
 import json
@@ -38,18 +25,19 @@ def save_location_view(request):
 
 # View that processes the data for react to print out, takes api key, radius of 5 miles, and user location
 # then uses places_nearby to process and cache data before spitting out usable data for react to display
-@csrf_exempt
+
 def nearby_open_restaurants_view(request):
     if request.method == 'GET':
         location = Location.objects.last()  
 
         if location:
-            api_key = "AIzaSyDPCXmyknljFGv185cBoyJKPTnMwJPofQY"
+            api_key = ""
             radius = request.GET.get('radius', 5000)
 
             location_str = f"{location.latitude},{location.longitude}"
             data = places_nearby(location_str, radius, api_key)
 
+            # lol
             
             restaurants = []
             for result in data.get('results', []):
@@ -57,7 +45,8 @@ def nearby_open_restaurants_view(request):
                     'name': result['name'],
                     'vicinity': result['vicinity'],
                     'rating': result.get('rating', 'N/A'),
-                    'opening_hours': result.get('opening_hours', {}).get('open_now', False),
+                    'opening_hours' : result['opening_hours'],
+                    'open_now': result['opening_hours']['open_now'] if 'opening_hours' in result else False,
                     'photo_url': result['photo_url'] if 'photo_url' in result else None
                 }
                 restaurants.append(restaurant)
