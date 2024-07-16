@@ -5,6 +5,7 @@ from .services import places_nearby
 from django.views.decorators.csrf import csrf_exempt 
 from .models import Location
 import json
+import openai
 
 # saves location data that is sent via post request from react
 @csrf_exempt
@@ -56,3 +57,20 @@ def nearby_open_restaurants_view(request):
             return JsonResponse({'error': 'No location data found.'}, status=404)
 
     return JsonResponse({'error': 'GET method required.'}, status=405)
+
+openai.key = ''
+@csrf_exempt
+def chat_with_gpt(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        user_message = data.get('message', '')
+
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt=user_message,
+            max_tokens=150
+        )
+
+        gpt_response = response.choices[0].text.strip()
+        return JsonResponse({'response': gpt_response})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
