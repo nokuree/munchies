@@ -104,7 +104,7 @@ function Dashboard() {
             </Card>
           ))}
         </div>
-        <Chat />
+        {/* <Chat /> */}
       </Container>
     </>
   );

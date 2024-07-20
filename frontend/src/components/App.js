@@ -8,7 +8,7 @@ import Login from "./Login"
 import PrivateRoute from "./PrivateRoute"
 import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
-import SignInWithGoogle from "./GoogleSignIn"
+import Chat from "./Chat"
 import axios from 'axios';
 // funny routing and rendering stuff, like when we minimize the window the application wont just implode on itself 
 function App() {
@@ -34,7 +34,7 @@ function App() {
                                 }
                             ></Route>
                             <Route path="/signup" element={<Signup/>}/>
-                            <Route path="/test" element={<SignInWithGoogle/>}/>
+                            <Route path="/test" element={<Chat/>}/>
                             <Route path="/login" element={<Login/>}/>
                             <Route path="/" element={<Login/>}/>
                             <Route path="/forgot-password" element={<ForgotPassword/>}/>

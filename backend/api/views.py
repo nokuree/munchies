@@ -2,11 +2,16 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .services import places_nearby
-from django.views.decorators.csrf import csrf_exempt 
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view 
+from dotenv import load_dotenv
 from .models import Location
 import json
 import openai
+import os
 
+load_dotenv(dotenv_path='.env.local')
+places_key=os.getenv('PLACES_KEY')
 # saves location data that is sent via post request from react
 @csrf_exempt
 def save_location_view(request):
@@ -32,11 +37,10 @@ def nearby_open_restaurants_view(request):
         location = Location.objects.last()  
 
         if location:
-            api_key = ""
             radius = request.GET.get('radius', 5000)
 
             location_str = f"{location.latitude},{location.longitude}"
-            data = places_nearby(location_str, radius, api_key)
+            data = places_nearby(location_str, radius, places_key)
 
             # lol
             
@@ -58,19 +62,78 @@ def nearby_open_restaurants_view(request):
 
     return JsonResponse({'error': 'GET method required.'}, status=405)
 
-openai.key = ''
-@csrf_exempt
-def chat_with_gpt(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        user_message = data.get('message', '')
+# @api_view(['POST'])
+# def chat(request):
+#     # Extract the message from the request data
+#     message = request.data.get('message')
+    
+#     if not message:
+#         return JsonResponse({'error': 'No message provided'}, status=400)
+    
+#     try:
+#         # Call the OpenAI API with the extracted message
+#         response = openai.ChatCompletion.create(
+#             model="gpt-4",
+#             messages=[
+#                 {"role": "system", "content": "You are a helpful assistant for an app called Munchies, a website which helps users find restaurants open in their area. You are to assist them in finding a restaurant that fits their cravings.You are NEVER allowed to refer to yourself as a machine learning model, GPT, or Openai Assistant, only refer to yourself as Brongo. ."},
+#                 {"role": "user", "content": message},
+#             ]
+#         )
+        
+#         # Extract the reply from the OpenAI response
+#         reply = response.choices[0].message['content'].strip()
+        
+#         # Return the reply as a JSON response
+#         return JsonResponse({'reply': reply})
+    
+#     except Exception as e:
+#         return JsonResponse({'error': str(e)}, status=500)
 
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=user_message,
-            max_tokens=150
+import json
+from django.http import JsonResponse, HttpRequest
+from rest_framework.decorators import api_view
+from .views import nearby_open_restaurants_view  # Import the nearby_open_restaurants_view
+import openai
+
+@api_view(['POST'])
+def chat(request):
+    # Extract the message from the request data
+    message = request.data.get('message')
+    
+    if not message:
+        return JsonResponse({'error': 'No message provided'}, status=400)
+    
+    # Fetch the nearby restaurants data
+    fake_request = HttpRequest()
+    fake_request.method = 'GET'
+    nearby_restaurants_response = nearby_open_restaurants_view(fake_request)
+    nearby_restaurants_data = json.loads(nearby_restaurants_response.content)
+
+    if 'error' in nearby_restaurants_data:
+        return JsonResponse({'error': 'Could not fetch restaurant data.'}, status=500)
+    
+    # Prepare the list of nearby restaurants
+    restaurants = nearby_restaurants_data['restaurants']
+    restaurants_str = "\n".join([f"{r['name']} - {r['vicinity']} - Rating: {r['rating']}" for r in restaurants])
+
+    # Prepare the full message for ChatGPT
+    full_message = f"User message: {message}\n\nNearby Restaurants:\n{restaurants_str}"
+    
+    try:
+        # Call the OpenAI API with the extracted message
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant for an app called Munchies, a website which helps users find restaurants open in their area. You are to assist them in finding a restaurant that fits their cravings. You are NEVER allowed to refer to yourself as a machine learning model, GPT, or Openai Assistant, only refer to yourself as Brongo."},
+                {"role": "user", "content": full_message},
+            ]
         )
-
-        gpt_response = response.choices[0].text.strip()
-        return JsonResponse({'response': gpt_response})
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+        
+        # Extract the reply from the OpenAI response
+        reply = response.choices[0].message['content'].strip()
+        
+        # Return the reply as a JSON response
+        return JsonResponse({'reply': reply})
+    
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
