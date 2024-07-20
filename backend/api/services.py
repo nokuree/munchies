@@ -212,7 +212,7 @@ def places_nearby(location, radius, api_key):
         details_url = "https://maps.googleapis.com/maps/api/place/details/json"
         details_params = {
             "place_id": place_id,
-            "fields": "name,vicinity,rating,opening_hours,photos",
+            "fields": "name,vicinity,rating,formatted_address,types,opening_hours,photos",
             "key": api_key
         }
         details_response = requests.get(details_url, params=details_params)
@@ -222,6 +222,8 @@ def places_nearby(location, radius, api_key):
             result['name'] = details_data['result'].get('name')
             result['vicinity'] = details_data['result'].get('vicinity')
             result['rating'] = details_data['result'].get('rating')
+            result['address'] = details_data.get('formatted_address')
+            result['types'] = details_data.get('types', [])
             result['opening_hours'] = details_data['result'].get('opening_hours', {})
 
             if 'photos' in details_data['result']:
