@@ -229,6 +229,7 @@ def places_nearby(location, radius, api_key):
             if 'photos' in details_data['result']:
                 photo_reference = details_data['result']['photos'][0]['photo_reference']
                 result['photo_url'] = get_photo_url(photo_reference, api_key)
+                
             else:
                 result['photo_url'] = None
             

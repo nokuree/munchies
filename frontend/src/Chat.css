@@ -1,0 +1,8 @@
+.user-message {
+    font-style: italic; 
+  }
+  
+  .chat-message.bot {
+    font-weight: bold; 
+  }
+  

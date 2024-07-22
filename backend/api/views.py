@@ -99,21 +99,14 @@ import openai
 def chat(request):
     # Extract the message from the request data
     message = request.data.get('message')
+    restaurants = request.data.get('restaurants')
     
     if not message:
         return JsonResponse({'error': 'No message provided'}, status=400)
     
-    # Fetch the nearby restaurants data
-    fake_request = HttpRequest()
-    fake_request.method = 'GET'
-    nearby_restaurants_response = nearby_open_restaurants_view(fake_request)
-    nearby_restaurants_data = json.loads(nearby_restaurants_response.content)
+    if not restaurants:
+        return JsonResponse({'error': 'No restaurant data provided'}, status=400)
 
-    if 'error' in nearby_restaurants_data:
-        return JsonResponse({'error': 'Could not fetch restaurant data.'}, status=500)
-    
-    # Prepare the list of nearby restaurants
-    restaurants = nearby_restaurants_data['restaurants']
     restaurants_str = "\n".join([f"{r['name']} - {r['vicinity']} - Rating: {r['rating']}" for r in restaurants])
 
     # Prepare the full message for ChatGPT
