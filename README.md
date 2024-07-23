@@ -4,6 +4,8 @@ Ever craved a delicious meal after a long night of studying, working late, or ca
 
 This website is designed to be your one-stop shop for finding **restaurants that are open** and ready to satisfy your late-night cravings. No more endlessly scrolling through outdated information or getting frustrated by Google Maps showing closed places. Munchies takes the guesswork out of your late-night adventures.
 
+Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo is here to help you find just the right restaurant, providing personalized recommendations based on your preferences. Whether you're in the mood for pizza, sushi, or a late-night burger, Brongo has you covered.
+
 ## Features
 - **Comprehensive Account System**: Includes Google OAuth for seamless sign-in and robust 2-Factor Authentication for enhanced security.
 - **Real-Time Restaurant Finder**: Displays all restaurants within a 5-mile radius that are currently open, complete with direct links to their Google Maps locations.
