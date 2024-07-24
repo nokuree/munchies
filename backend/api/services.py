@@ -153,6 +153,8 @@ import json
 import requests
 import redis
 import logging
+import asyncio
+import aiohttp
 from django.conf import settings
 import time
 from .models import Location
@@ -173,6 +175,52 @@ def get_cached_request(key):
         logger.debug(f"Cache hit for key: {key}")
         return json.loads(cached_data)
     logger.debug(f"Cache miss for key: {key}")
+    return None
+
+async def fetch_details(session, details_url, details_params):
+    async with session.get(details_url, params=details_params) as response:
+        return await response.json()
+
+async def get_all_details(all_results, api_key):
+    details_url = "https://maps.googleapis.com/maps/api/place/details/json"
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for result in all_results:
+            place_id = result['place_id']
+            details_params = {
+                "place_id": place_id,
+                "fields": "name,vicinity,rating,formatted_address,types,opening_hours,photos",
+                "key": api_key
+            }
+            tasks.append(fetch_details(session, details_url, details_params))
+
+        detailed_responses = await asyncio.gather(*tasks)
+        
+        detailed_results = []
+        for i, details_data in enumerate(detailed_responses):
+            result = all_results[i]
+            if 'result' in details_data:
+                result['name'] = details_data['result'].get('name')
+                result['vicinity'] = details_data['result'].get('vicinity')
+                result['rating'] = details_data['result'].get('rating')
+                result['address'] = details_data.get('formatted_address')
+                result['types'] = details_data.get('types', [])
+                result['opening_hours'] = details_data['result'].get('opening_hours', {})
+
+                if 'photos' in details_data['result']:
+                    photo_reference = details_data['result']['photos'][0]['photo_reference']
+                    result['photo_url'] = await get_photo_url(photo_reference, api_key)
+                else:
+                    result['photo_url'] = None
+
+                detailed_results.append(result)
+                
+        return detailed_results
+
+async def get_photo_url(photo_reference, api_key):
+    if photo_reference:
+        photo_url = f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
+        return photo_url
     return None
 
 def places_nearby(location, radius, api_key):
@@ -206,39 +254,8 @@ def places_nearby(location, radius, api_key):
         else:
             break
 
-    detailed_results = []
-    for result in all_results:
-        place_id = result['place_id']
-        details_url = "https://maps.googleapis.com/maps/api/place/details/json"
-        details_params = {
-            "place_id": place_id,
-            "fields": "name,vicinity,rating,formatted_address,types,opening_hours,photos",
-            "key": api_key
-        }
-        details_response = requests.get(details_url, params=details_params)
-        details_data = details_response.json()
-
-        if 'result' in details_data:
-            result['name'] = details_data['result'].get('name')
-            result['vicinity'] = details_data['result'].get('vicinity')
-            result['rating'] = details_data['result'].get('rating')
-            result['address'] = details_data.get('formatted_address')
-            result['types'] = details_data.get('types', [])
-            result['opening_hours'] = details_data['result'].get('opening_hours', {})
-
-            if 'photos' in details_data['result']:
-                photo_reference = details_data['result']['photos'][0]['photo_reference']
-                result['photo_url'] = get_photo_url(photo_reference, api_key)
-                
-            else:
-                result['photo_url'] = None
-            
-            detailed_results.append(result)
+    # Get detailed results asynchronously, makes initial loading times insanely faster 
+    detailed_results = asyncio.run(get_all_details(all_results, api_key))
 
     cache_request(cache_key, detailed_results)
     return {'results': detailed_results}
-# function used to get the photo urls
-def get_photo_url(photo_reference, api_key):
-    if photo_reference:
-        return f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
-    return None

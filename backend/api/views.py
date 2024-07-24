@@ -62,38 +62,7 @@ def nearby_open_restaurants_view(request):
 
     return JsonResponse({'error': 'GET method required.'}, status=405)
 
-# @api_view(['POST'])
-# def chat(request):
-#     # Extract the message from the request data
-#     message = request.data.get('message')
-    
-#     if not message:
-#         return JsonResponse({'error': 'No message provided'}, status=400)
-    
-#     try:
-#         # Call the OpenAI API with the extracted message
-#         response = openai.ChatCompletion.create(
-#             model="gpt-4",
-#             messages=[
-#                 {"role": "system", "content": "You are a helpful assistant for an app called Munchies, a website which helps users find restaurants open in their area. You are to assist them in finding a restaurant that fits their cravings.You are NEVER allowed to refer to yourself as a machine learning model, GPT, or Openai Assistant, only refer to yourself as Brongo. ."},
-#                 {"role": "user", "content": message},
-#             ]
-#         )
-        
-#         # Extract the reply from the OpenAI response
-#         reply = response.choices[0].message['content'].strip()
-        
-#         # Return the reply as a JSON response
-#         return JsonResponse({'reply': reply})
-    
-#     except Exception as e:
-#         return JsonResponse({'error': str(e)}, status=500)
 
-import json
-from django.http import JsonResponse, HttpRequest
-from rest_framework.decorators import api_view
-from .views import nearby_open_restaurants_view  # Import the nearby_open_restaurants_view
-import openai
 
 @api_view(['POST'])
 def chat(request):
