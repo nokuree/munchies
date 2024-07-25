@@ -4,7 +4,7 @@ import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom";
 
 
-
+// UpdateProfile code 
 export default function UpdateProfile() {
     // data declarations 
     const emailRef = useRef()

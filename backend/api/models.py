@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Location database so we can store for django to process
 class Location (models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()

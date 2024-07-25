@@ -3,7 +3,7 @@ import { Form, Button, Card, Alert, Container } from 'react-bootstrap';
 import {useAuth} from '../contexts/AuthContext';
 import {Link} from "react-router-dom"
 
-
+// Forget password component
 export default function ForgotPassword() {
     // data declarations 
     const emailRef = useRef()
@@ -14,8 +14,6 @@ export default function ForgotPassword() {
     const [message, setMessage] = useState("")
     const [loading, setLoading] = useState(false)
 
-    // So when we submit, it makes sure that the passwords match and if not, it wont proceed and blocks the email and password from being registered and 
-    // causing a mess
     async function handleSubmit(e) {
         e.preventDefault()
 
@@ -32,7 +30,7 @@ export default function ForgotPassword() {
         
     }
 
-    // Fun frontend, bootstrap is fun to work with :p
+    // Forgot password code, its cool cause it sends a email to you to reset password. 
     return (
         <Container
         className="d-flex align-items-center justify-content-center"

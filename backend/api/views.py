@@ -42,7 +42,6 @@ def nearby_open_restaurants_view(request):
             location_str = f"{location.latitude},{location.longitude}"
             data = places_nearby(location_str, radius, places_key)
 
-            # lol
             
             restaurants = []
             for result in data.get('results', []):

@@ -4,6 +4,10 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles.css'; 
 
+
+// Navbar was way too messy to put in Dashboard by itself, so I decided to make a seperate component.
+// I try to avoid messy and hard to read code when I can lol, unless that messy and hard to read code
+// is the only way to keep the project together 
 function NavBar() {
     const { currentUser, logout } = useAuth();
     const [error, setError] = useState('');

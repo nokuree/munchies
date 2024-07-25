@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
+// What I use to get the user location, not exact but pretty accurate compared to thier generic ip address
 const GeolocationComponent = () => {
     const [userLocation, setUserLocation] = useState({ latitude: null, longitude: null });
     const [error, setError] = useState(null);

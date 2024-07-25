@@ -10,7 +10,9 @@ import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import Chat from "./Chat"
 import axios from 'axios';
-// funny routing and rendering stuff, like when we minimize the window the application wont just implode on itself 
+
+
+// funny routing, i use a custom PrivateRoute component to handle private routing
 function App() {
     return ( 
 

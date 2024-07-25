@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles.css';
 
+// Dashboard ui and frontend handeling when the page loads
 function Dashboard() {
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState(null);
@@ -16,6 +17,7 @@ function Dashboard() {
   const notifyLoading = () => toast.loading("Loading restaurants...");
   const updateLoading = (id, message, type) => toast.update(id, { render: message, type, isLoading: false, autoClose: 2000 });
 
+  // this is where the frontend connects with the django data to fetch our sweet sweet processed data 
   useEffect(() => {
     const fetchData = async () => {
       const toastId = notifyLoading();
@@ -41,7 +43,7 @@ function Dashboard() {
 
     fetchData();
   }, []);
-
+  // To figure out what day it is lol
   const getCurrentDayIndex = () => {
     const currentDay = new Date().getDay();
     const adjustedDay = (currentDay === 0) ? 6 : currentDay -1;
@@ -49,7 +51,7 @@ function Dashboard() {
   };
 
   const currentDayIndex = getCurrentDayIndex();
-
+  // debugging code
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -69,7 +71,8 @@ function Dashboard() {
         <div className="w-100" style={{ maxWidth: "1000px" }}>
           <h1 className="munchies-title text-center" style={{ color: 'white', fontSize: '2.5rem', marginBottom: '20px', marginLeft: '-60px'}}>Nearby Open Restaurants</h1>
           {loading ? (
-            // Display placeholders while loading
+            // Display placeholders while loading, makes loading look alot more clean :p
+            // Thank God for react bootstrap!
             Array.from({ length: 5 }).map((_, index) => (
               <Card key={index} className="mb-4 text-sm" style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-start', minHeight: '250px', padding: '20px', fontSize: '1.2rem' }}>
                 <div style={{ flex: '0 0 auto', width: '250px', height: '250px', overflow: 'hidden', marginRight: '20px' }}>

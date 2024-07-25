@@ -11,6 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 import GeolocationComponent from "./Geolocation";
 // import GoogleSignIn from "./GoogleSignIn"
 
+// Basic Login code. A bit flawed I will admit, no 2factor support and can just use any email, but most users will use the OAuth sign in anyways :p.
+// A leftover from when I was first starting the project and getting aquainted with Firebase
 export default function Login() {
   // data declarations
   const emailRef = useRef();

@@ -30,11 +30,16 @@ def get_cached_request(key):
     logger.debug(f"Cache miss for key: {key}")
     return None
 
-#
+# Used to optimize getting the json data for quicker loading times, sends a async http get request to our api url,
+# then waits for the request and reads it as JSON, then returns the JSON data
 async def fetch_details(session, details_url, details_params):
     async with session.get(details_url, params=details_params) as response:
         return await response.json()
 
+# So we set up the url and a asynchronous http session, I then prepare the tasks to fetch
+# details for each place at the same time using the powers of async, we wait for all the tasks to complete,
+# then we process everything within the second for statement, extracting and assigning the data to the original results,
+# then we return the augmented list of detailed results
 async def get_all_details(all_results, api_key):
     details_url = "https://maps.googleapis.com/maps/api/place/details/json"
     async with aiohttp.ClientSession() as session:
@@ -71,12 +76,16 @@ async def get_all_details(all_results, api_key):
                 
         return detailed_results
 
+# self explanatory lol 
 async def get_photo_url(photo_reference, api_key):
     if photo_reference:
         photo_url = f'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={api_key}'
         return photo_url
     return None
 
+# We look for the cached data, then with the url and our params, we make api requests until
+# until there are no more pages to get data from (Places API only can have 20 locations per api request, so there
+# is multiple pages of api data)
 def places_nearby(location, radius, api_key):
     cache_key = f"places_nearby:{location}:{radius}:open_restaurants"
     cached_data = get_cached_request(cache_key)
@@ -111,5 +120,6 @@ def places_nearby(location, radius, api_key):
     # Get detailed results asynchronously, makes initial loading times insanely faster 
     detailed_results = asyncio.run(get_all_details(all_results, api_key))
 
+    # saves data in the cache so when we refresh, we got instant access to the processed data
     cache_request(cache_key, detailed_results)
     return {'results': detailed_results}

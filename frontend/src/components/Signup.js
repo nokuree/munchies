@@ -4,7 +4,7 @@ import {useAuth} from '../contexts/AuthContext';
 import {Link, useNavigate} from "react-router-dom";
 import GoogleSignIn from "./GoogleSignIn"
 
-
+// Signup code
 export default function Signup() {
     // data declarations 
     const emailRef = useRef()

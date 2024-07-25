@@ -5,6 +5,7 @@ import "../styles.css";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
+// Google sign in! Loved working with it, so cool to use powerful technologies like this 
 function GoogleSignIn() {
     const navigate = useNavigate();
 

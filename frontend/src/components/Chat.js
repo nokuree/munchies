@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is import
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './Chat.css';
 
+// Chatgpt ui stuff
 function Chat({ restaurants }) {
   const [message, setMessage] = useState('');
   const [chat, setChat] = useState([]);
@@ -18,7 +19,7 @@ function Chat({ restaurants }) {
         { type: 'bot', text: 'Hello! I am Brongo, your helpful assistant for finding the best restaurants around. How can I help you today?' }
       ]);
     };
-
+ 
     loadDefaultMessage();
   }, []); // Empty dependency array ensures this runs only once when the component mounts
 
