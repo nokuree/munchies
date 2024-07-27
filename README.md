@@ -16,5 +16,5 @@ Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo 
 - **Backend**: Django and Python for API calls, data management, and redis caching
 - **Frontend**: React with JavaScript, utilizing React Bootstrap for UI components.
 - **Styling**: Tailwind CSS for modern and responsive design.
-- **Database**: PostgreSQL for datbase, Firebase for real-time data and authentication.
+- **Database**: PostgreSQL for database, Firebase for real-time data and authentication.
 - **APIs**: Google Places API for restaurant data, OpenAI API for the virtual assistant.
