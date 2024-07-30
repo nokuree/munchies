@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
 import { UserAuth, useAuth } from "../contexts/AuthContext";
 import { auth, provider } from "../firebase";
+import { sendEmailVerification } from "firebase/auth";
 import {
   getRedirectResult,
   signInWithRedirect,
@@ -9,12 +10,8 @@ import {
 } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import GeolocationComponent from "./Geolocation";
-// import GoogleSignIn from "./GoogleSignIn"
 
-// Basic Login code. A bit flawed I will admit, no 2factor support and can just use any email, but most users will use the OAuth sign in anyways :p.
-// A leftover from when I was first starting the project and getting aquainted with Firebase
 export default function Login() {
-  // data declarations
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -24,8 +21,13 @@ export default function Login() {
   const { googleSignIn, currentUser } = UserAuth();
   const history = useNavigate();
 
-  // So when we submit, it makes sure that the passwords match and if not, it wont proceed and blocks the email and password from being registered and
-  // causing a mess
+  useEffect(() => {
+    if (currentUser && !currentUser.emailVerified) {
+      setError("Please verify your email before logging in.");
+      setLoading(false);
+    }
+  }, [currentUser]);
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -36,12 +38,22 @@ export default function Login() {
       setError("");
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
+      
+      // Check if the user's email is verified
+      if (!auth.currentUser.emailVerified) {
+        setError("Please verify your email before logging in.");
+        await auth.signOut();
+        setLoading(false);
+        return;
+      }
+
       console.log("Current user is: ", currentUser);
       history("/dashboard");
     } catch (error) {
+      setError(error.message);
       console.error(error);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   const handleGoogleSignIn = async () => {
@@ -51,11 +63,8 @@ export default function Login() {
         history("/dashboard");
       }
     });
-
-    // signInWithRedirect(auth,provider)
   };
 
-  // Fun frontend, bootstrap is fun to work with :p
   return (
     <Container
       className="d-flex align-items-center justify-content-center"
