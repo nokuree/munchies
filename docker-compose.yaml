@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: munchies-database
+      POSTGRES_USER: munchies
+      POSTGRES_PASSWORD: Biosphere#1
+
+  redis:
+    image: redis:alpine
+
+  backend:
+    build:
+      context: ./backend
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: localhost
+
+      DB_NAME: munchies_database
+      DB_USER: munchies
+      DB_PASS: Biosphere#1
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+
+

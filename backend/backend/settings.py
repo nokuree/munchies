@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'munchies_database',
         'USER': 'munchies',
         'PASSWORD': 'Biosphere#1',
-        'HOST': 'localhost',  
+        'HOST': 'new_postgres_container',  
         'PORT': '5432',
     }
 }
