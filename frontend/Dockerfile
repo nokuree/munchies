@@ -1,18 +1,26 @@
-# Dockerfile for React
-FROM node:14
+# Use an official node image as the base image
+FROM node:14-alpine
 
-# Set work directory
-WORKDIR /app
+# Set the working directory
+WORKDIR /frontend
+
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
 # Install dependencies
-COPY package*.json /app/
 RUN npm install
 
-# Copy project
-COPY . /app/
+# Copy the rest of the application code
+COPY . .
 
-# Build the app
+# Build the React app
 RUN npm run build
 
-# Serve the app
-CMD ["npx", "serve", "build"]
+# Install a simple HTTP server to serve the static files
+RUN npm install -g serve
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Command to run the app
+CMD ["serve", "-s", "build", "-l", "3000"]

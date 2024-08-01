@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'munchies_database',
         'USER': 'munchies',
         'PASSWORD': 'Biosphere#1',
-        'HOST': 'new_postgres_container',  
+        'HOST': 'postgres',  
         'PORT': '5432',
     }
 }
@@ -135,8 +135,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-REDIS_HOST = 'localhost'
+REDIS_HOST = 'redis'
 REDIS_PORT = 6379
+
+REDIS_URL = 'redis://redis:6379/1'
+
+# Cache configuration (if using Redis for caching)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': REDIS_URL,
+    }
+}
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
