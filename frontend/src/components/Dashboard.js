@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles.css';
 
+
 // Dashboard ui and frontend handeling when the page loads
 function Dashboard() {
   const [restaurants, setRestaurants] = useState([]);
@@ -16,14 +17,15 @@ function Dashboard() {
   // Show loading toast
   const notifyLoading = () => toast.loading("Loading restaurants...");
   const updateLoading = (id, message, type) => toast.update(id, { render: message, type, isLoading: false, autoClose: 2000 });
-
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+  
   // this is where the frontend connects with the django data to fetch our sweet sweet processed data 
   useEffect(() => {
     const fetchData = async () => {
       const toastId = notifyLoading();
       try {
         const response = await fetch(
-          "http://localhost:8000/api/nearby_open_restaurants/"
+          fetch(`${apiBaseUrl}/nearby_open_restaurants/`)
         );
         if (!response.ok) {
           throw new Error("Network response was not good :(");

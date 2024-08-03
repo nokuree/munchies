@@ -11,7 +11,7 @@ function Chat({ restaurants }) {
   const [chat, setChat] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false); // State for loading indicator
-
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   useEffect(() => {
     // Add a default message when the component mounts
     const loadDefaultMessage = async () => {
@@ -36,7 +36,7 @@ function Chat({ restaurants }) {
     setLoading(true); // Set loading state to true
 
     try {
-      const response = await fetch("http://localhost:8000/api/chat/", {
+      const response = await fetch(`${apiBaseUrl}/chat/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

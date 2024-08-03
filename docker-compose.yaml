@@ -28,8 +28,8 @@ services:
     image: postgres:13
     environment:
       POSTGRES_DB: munchies_database
-      POSTGRES_USER: munchies
-      POSTGRES_PASSWORD: Biosphere#1
+      POSTGRES_USER: keifxuekbe
+      POSTGRES_PASSWORD: Fc$9JiKYhgP4pXgO
     ports:
       - "5432:5432"
 
@@ -37,3 +37,4 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+

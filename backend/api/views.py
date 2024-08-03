@@ -9,9 +9,24 @@ from .models import Location
 import json
 import openai
 import os
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
-load_dotenv(dotenv_path='.env.local')
-places_key=os.getenv('PLACES_KEY')
+# load_dotenv(dotenv_path='.env.local')
+# places_key=os.getenv('PLACES_KEY')
+
+
+credential = DefaultAzureCredential()
+key_vault_name = os.getenv('KEY_VAULT_NAME')
+key_vault_uri = f"https://munchiez-key-vault.vault.azure.net"
+client = SecretClient(vault_url=key_vault_uri, credential=credential)
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-e67+#4m_9&31j8+r55h_la8pjg@^zcg0e!%b0#ipc*8&c904h!'
+
+secret_name_2 = "api2"
+openai.api_key = client.get_secret(secret_name_2).value
+
 # saves location data that is sent via post request from react
 @csrf_exempt
 def save_location_view(request):

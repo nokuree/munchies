@@ -14,17 +14,26 @@ from pathlib import Path
 import openai
 from dotenv import load_dotenv
 import os
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(dotenv_path='.env.local')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
+credential = DefaultAzureCredential()
+key_vault_name = os.getenv('KEY_VAULT_NAME')
+key_vault_uri = f"https://munchiez-key-vault.vault.azure.net"
+client = SecretClient(vault_url=key_vault_uri, credential=credential)
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-e67+#4m_9&31j8+r55h_la8pjg@^zcg0e!%b0#ipc*8&c904h!'
-openai.api_key = os.getenv('OPENAI_KEY')
+
+secret_name_1 = "api1"
+openai.api_key = client.get_secret(secret_name_1).value
+# openai.api_key = os.getenv('OPENAI_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,17 +90,43 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# settings.py
+def get_secret(secret_name):
+    key_vault_name = os.getenv('KEY_VAULT_NAME')
+    if key_vault_name:
+        key_vault_uri = f"https://{key_vault_name}.vault.azure.net"
+        credential = DefaultAzureCredential()
+        client = SecretClient(vault_url=key_vault_uri, credential=credential)
+        return client.get_secret(secret_name).value
+    return os.getenv(secret_name)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'munchies_database',
-        'USER': 'munchies',
-        'PASSWORD': 'Biosphere#1',
-        'HOST': 'postgres',  
-        'PORT': '5432',
+        'NAME': get_secret('database-name'),
+        'USER': get_secret('database-user'),
+        'PASSWORD': get_secret('database-password'),
+        'HOST': get_secret('database-host'),
+        'PORT': get_secret('database-port'),
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': get_secret('redis-url'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+REDIS_HOST = get_secret('redis-host')
+REDIS_PORT = get_secret('redis-port')
+REDIS_URL = get_secret('redis-url')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -135,18 +170,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-REDIS_HOST = 'redis'
-REDIS_PORT = 6379
-
-REDIS_URL = 'redis://redis:6379/1'
-
-# Cache configuration (if using Redis for caching)
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': REDIS_URL,
-    }
-}
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True

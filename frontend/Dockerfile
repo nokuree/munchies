@@ -14,6 +14,10 @@ RUN npm install
 COPY . .
 
 # Build the React app
+ARG REACT_APP_API_BASE_URL
+ENV REACT_APP_API_BASE_URL=$REACT_APP_API_BASE_URL
+
+# Build the React app
 RUN npm run build
 
 # Install a simple HTTP server to serve the static files
