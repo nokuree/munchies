@@ -25,7 +25,7 @@ client = SecretClient(vault_url=key_vault_uri, credential=credential)
 SECRET_KEY = 'django-insecure-e67+#4m_9&31j8+r55h_la8pjg@^zcg0e!%b0#ipc*8&c904h!'
 
 secret_name_2 = "api2"
-openai.api_key = client.get_secret(secret_name_2).value
+places_key = client.get_secret(secret_name_2).value
 
 # saves location data that is sent via post request from react
 @csrf_exempt
