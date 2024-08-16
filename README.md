@@ -18,4 +18,4 @@ Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo 
 - **Styling**: Tailwind CSS for modern and responsive design.
 - **Database**: PostgreSQL for database, Firebase for real-time data and authentication
 - **APIs**: Google Places API for restaurant data, OpenAI API for the virtual assistant.
-- **Deployment**: Docker for setting up deployment, Azure Kubectl Pods for cloud hosting and databases 
+- **Deployment**: Docker for setting up deployment, Azure Kubectl Pods for cloud hosting and databases, OpenSSL for frontend and backend tls encryption
