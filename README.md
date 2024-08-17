@@ -17,7 +17,7 @@ link: munchies-box.com
 ## Tech Stack
 - **Backend**: Django and Python for API calls and data management
 - **Frontend**: React with JavaScript, utilizing React Bootstrap for UI components.
-- **Styling**: Tailwind CSS for modern and responsive design.
+- **Styling**: CSS for modern and responsive design.
 - **Database**: PostgreSQL for database, Firebase for real-time data and authentication
 - **APIs**: Google Places API for restaurant data, OpenAI API for the virtual assistant.
 - **Deployment**: Docker for setting up deployment, Azure Kubectl Pods for cloud hosting and databases, OpenSSL for frontend and backend tls encryption
