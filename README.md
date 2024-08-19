@@ -6,18 +6,18 @@ This website is designed to be your one-stop shop for finding **restaurants that
 
 Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo is here to help you find just the right restaurant, providing personalized recommendations based on your preferences. Whether you're in the mood for pizza, sushi, or a late-night burger, Brongo has you covered.
 
-link: munchies-box.com
+Check it out!: munchies-box.com
 
 ## Features
-- **Comprehensive Account System**: Includes Google OAuth for seamless sign-in and robust 2-Factor Authentication for enhanced security.
+- **Comprehensive Account System**: Includes a robust 2-Factor Authentication system for enhanced security.
 - **Real-Time Restaurant Finder**: Displays all restaurants within a 5-mile radius that are currently open, complete with direct links to their Google Maps locations.
-- **AI-Powered Assistant**: Leverages ChatGPT-4 to offer a virtual assistant, Brongo, that provides personalized restaurant recommendations.
+- **AI-Powered Assistant**: Leverages ChatGPT-40-mini to offer a virtual assistant, Brongo, that provides personalized restaurant recommendations.
 - **Responsive Design**: Optimized for both desktop and mobile devices, ensuring a smooth user experience across platforms.
 
 ## Tech Stack
 - **Backend**: Django and Python for API calls and data management
 - **Frontend**: React with JavaScript, utilizing React Bootstrap for UI components.
 - **Styling**: CSS for modern and responsive design.
-- **Database**: PostgreSQL for database, Firebase for real-time data and authentication
+- **Database**: PostgreSQL for database, Firebase for authentication
 - **APIs**: Google Places API for restaurant data, OpenAI API for the virtual assistant.
 - **Deployment**: Docker for setting up deployment, Azure Kubectl Pods for cloud hosting and databases, OpenSSL for frontend and backend tls encryption
