@@ -6,7 +6,7 @@ This website is designed to be your one-stop shop for finding **restaurants that
 
 Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo is here to help you find just the right restaurant, providing personalized recommendations based on your preferences. Whether you're in the mood for pizza, sushi, or a late-night burger, Brongo has you covered.
 
-Check it out!: munchies-box.com
+Check it out!: munchies-box.com (Website currently offline as it is too expensive for me to host long term. I am actively working on switching to a student account and switching from Azure Kubernetes to Azure App Services, along with working on resource efficency. In the mean time, check out the demo video here: https://www.linkedin.com/posts/simon-meili-605066267_excited-to-share-my-latest-project-munchiesa-activity-7231024418263605248-ofMX?utm_source=share&utm_medium=member_desktop)
 
 ## Features
 - **Comprehensive Account System**: Includes a robust 2-Factor Authentication system for enhanced security.
