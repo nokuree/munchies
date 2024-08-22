@@ -4,9 +4,9 @@ Ever craved a delicious meal after a long night of studying, working late, or ca
 
 This website is designed to be your one-stop shop for finding **restaurants that are open** and ready to satisfy your late-night cravings. No more endlessly scrolling through outdated information or getting frustrated by Google Maps showing closed places. Munchies takes the guesswork out of your late-night adventures.
 
-Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4. Brongo is here to help you find just the right restaurant, providing personalized recommendations based on your preferences. Whether you're in the mood for pizza, sushi, or a late-night burger, Brongo has you covered.
+Introducing **Brongo**, your personal AI assistant powered by ChatGPT-4o-mini. Brongo is here to help you find just the right restaurant, providing personalized recommendations based on your preferences. Whether you're in the mood for pizza, sushi, or a late-night burger, Brongo has you covered.
 
-Check it out!: munchies-box.com (Website currently offline as it is too expensive for me to host long term. I am actively working on switching to a student account and switching from Azure Kubernetes to Azure App Services, along with working on resource efficency. In the mean time, check out the demo video here: https://www.linkedin.com/posts/simon-meili-605066267_excited-to-share-my-latest-project-munchiesa-activity-7231024418263605248-ofMX?utm_source=share&utm_medium=member_desktop)
+Check it out!: https://munchies-box.com (Website currently offline as it is too expensive for me to host long term. I am actively working on switching to a student account and switching from Azure Kubernetes to Azure App Services, along with working on resource efficency. In the mean time, check out the demo video here!: https://www.linkedin.com/posts/simon-meili-605066267_excited-to-share-my-latest-project-munchiesa-activity-7231024418263605248-ofMX?utm_source=share&utm_medium=member_desktop)
 
 ## Features
 - **Comprehensive Account System**: Includes a robust 2-Factor Authentication system for enhanced security.
@@ -16,8 +16,7 @@ Check it out!: munchies-box.com (Website currently offline as it is too expensiv
 
 ## Tech Stack
 - **Backend**: Django and Python for API calls and data management
-- **Frontend**: React with JavaScript, utilizing React Bootstrap for UI components.
-- **Styling**: CSS for modern and responsive design.
+- **Frontend**: React with JavaScript, utilizing React Bootstrap for UI components, CSS for styling.
 - **Database**: PostgreSQL for database, Firebase for authentication
 - **APIs**: Google Places API for restaurant data, OpenAI API for the virtual assistant.
-- **Deployment**: Docker for setting up deployment, Azure Kubectl Pods for cloud hosting and databases, OpenSSL for frontend and backend tls encryption
+- **Deployment**: Docker for setting up deployment, Azure Kubernetes for cloud hosting, Azure for databases, OpenSSL for frontend and backend tls encryption
