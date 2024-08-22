@@ -11,7 +11,7 @@ Check it out!: https://munchies-box.com (Website currently offline as it is too 
 ## Features
 - **Comprehensive Account System**: Includes a robust 2-Factor Authentication system for enhanced security.
 - **Real-Time Restaurant Finder**: Displays all restaurants within a 5-mile radius that are currently open, complete with direct links to their Google Maps locations.
-- **AI-Powered Assistant**: Leverages ChatGPT-40-mini to offer a virtual assistant, Brongo, that provides personalized restaurant recommendations.
+- **AI-Powered Assistant**: Leverages ChatGPT-4o-mini to offer a virtual assistant, Brongo, that provides personalized restaurant recommendations.
 - **Responsive Design**: Optimized for both desktop and mobile devices, ensuring a smooth user experience across platforms.
 
 ## Tech Stack
